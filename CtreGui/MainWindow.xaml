@@ -1,0 +1,54 @@
+﻿<Window x:Class="CtreGui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CtreGui"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+    <DockPanel TextElement.FontSize="40">
+        <StackPanel
+            DockPanel.Dock="Top"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Top"
+            Margin="0,32">
+            <TextBlock Text="ID" VerticalAlignment="Center" Margin="4,0" />
+            <TextBox x:Name="IdInput" Width="80" Margin="4,0" TextAlignment="Center" VerticalAlignment="Center" />
+            <Button Content="Add Motor" Click="AddMotor_Click" Margin="32,0" Padding="8,0" />
+            <Button x:Name="Enable" Content="Disabled" Margin="64,0" Padding="8,0" Click="Enable_OnClick" Width="180" Background="LightCoral"/>
+        </StackPanel>
+        <StackPanel>
+            <ItemsControl ItemsSource="{Binding Motors}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24">
+                            <Button Content="X" Padding="8,0" Click="DeleteButton_OnClick" Margin="16,0" />
+                            <TextBlock Text="{Binding CanId, StringFormat='ID: {0}'}" VerticalAlignment="Center" />
+                            <Slider 
+                                Value="{Binding Output, UpdateSourceTrigger=PropertyChanged}"
+                                MouseRightButtonUp="SpeedSlider_OnMouseRightButtonUp"
+                                Width="400"
+                                Minimum="-100"
+                                Maximum="100"
+                                VerticalAlignment="Center"
+                                Margin="16,0">
+                                <Slider.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                                </Slider.LayoutTransform>
+                            </Slider>
+                            <TextBlock
+                                Text="{Binding Output, StringFormat={}{0:F0}%}"
+                                VerticalAlignment="Center"
+                                Width="120" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </DockPanel>
+</Window>
